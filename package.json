@@ -3,7 +3,9 @@
 	"version": "1.0.0",
 	"description": "- 🤓 Cool geek! - 🖥️ Coding is my passion - 👶 New(ish) father",
 	"main": "index.js",
-	"scripts": {},
+	"scripts": {
+		"build": "node build/index.js"
+	},
 	"repository": {
 		"type": "git",
 		"url": "git+https://github.com/5c077m4n/5c077m4n.git"
