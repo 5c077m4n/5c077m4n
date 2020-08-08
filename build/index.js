@@ -38,7 +38,8 @@ async function main() {
 			.replace(
 				/\{\{\s*avgQuality\s*\}\}/g,
 				(((httpResponderData.quality + pkgplayData.quality + awaitFnData.quality) / 3) * 100).toFixed(1) + '%',
-			),
+			)
+			.replace(/\{\{\s*dateNow\s*\}\}/g, `Updated on ${new Date().toLocaleDateString()}`),
 	);
 }
 
