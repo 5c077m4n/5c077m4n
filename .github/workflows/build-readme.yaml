@@ -21,10 +21,10 @@ jobs:
       - run: npm run build
       - name: Commit changes
         uses: EndBug/add-and-commit@v4
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           author_name: Roee Shapira
           author_email: roy.shap1@gmail.com
           message: "Built new readme file"
           add: "."
-          env:
-            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
