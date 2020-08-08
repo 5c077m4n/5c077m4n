@@ -5,7 +5,8 @@
 	"main": "",
 	"type": "module",
 	"scripts": {
-		"build": "node build/index.js"
+		"build": "node build/index.js",
+		"prepare": "npm run build"
 	},
 	"repository": {
 		"type": "git",
