@@ -1,0 +1,36 @@
+{
+	"name": "5c077m4n",
+	"version": "1.0.0",
+	"description": "- 🤓 Cool geek! - 🖥️ Coding is my passion - 👶 New(ish) father",
+	"main": "index.js",
+	"scripts": {},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/5c077m4n/5c077m4n.git"
+	},
+	"keywords": [],
+	"author": "",
+	"license": "ISC",
+	"bugs": {
+		"url": "https://github.com/5c077m4n/5c077m4n/issues"
+	},
+	"homepage": "https://github.com/5c077m4n/5c077m4n#readme",
+	"devDependencies": {
+		"eslint": "^7.6.0",
+		"husky": "^4.2.5",
+		"lint-staged": "^10.2.11",
+		"prettier": "^2.0.5"
+	},
+	"husky": {
+		"hooks": {
+			"pre-commit": "lint-staged"
+		}
+	},
+	"lint-staged": {
+		"*.js": "eslint --cache --fix",
+		"*.{js,css,md}": "prettier --write"
+	},
+	"dependencies": {
+		"cross-fetch": "^3.0.5"
+	}
+}
