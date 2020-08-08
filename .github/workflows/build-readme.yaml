@@ -1,0 +1,30 @@
+# This workflow will do a clean install of node dependencies, build the source code and run tests across different versions of node
+# For more information see: https://help.github.com/actions/language-and-framework-guides/using-nodejs-with-github-actions
+
+name: Build README
+
+on:
+  push:
+  schedule:
+    - cron: "0 0 * * *"
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
+        with:
+          node-version: latest
+      - run: npm ci
+      - run: npm run build
+      - name: Commit changes
+        uses: EndBug/add-and-commit@v4
+        with:
+          author_name: Roee Shapira
+          author_email: roy.shap1@gmail.com
+          message: "Built new readme file"
+          add: "."
+          env:
+            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

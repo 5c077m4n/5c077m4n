@@ -1,4 +1,7 @@
-const fetch = require('cross-fetch');
+import * as path from 'path';
+
+import fetch from 'cross-fetch';
+import fs from 'fs-extra';
 
 async function getPkgData(pkgName) {
 	const npmPackageDataUrl = 'https://api.npms.io/v2/package/';
@@ -9,16 +12,31 @@ async function getPkgData(pkgName) {
 		pkgName,
 		downloadCount: json.collected.npm.downloads.reduce((total, { count }) => count + total, 0),
 		quality: json.score.detail.quality,
-		starCount: json.collected.github?.starsCount,
 	};
 }
 
 async function main() {
-	const httpResponderData = await getPkgData('http-responder');
-	const pkgplayData = await getPkgData('pkgplay');
-	const awaitFnData = await getPkgData('await-fn');
+	const readmePath = path.resolve(__dirname, '../README.md');
 
-	console.log(httpResponderData, pkgplayData, awaitFnData);
+	const [httpResponderData, pkgplayData, awaitFnData] = await Promise.all([
+		getPkgData('http-responder'),
+		getPkgData('pkgplay'),
+		getPkgData('await-fn'),
+	]);
+
+	const currentReadme = await fs.readFile(readmePath);
+	await fs.writeFile(
+		readmePath,
+		currentReadme
+			.replace(
+				/\{\{\s*downloadsCount\s*\}\}/g,
+				httpResponderData.downloadCount + pkgplayData.downloadCount + awaitFnData.downloadCount,
+			)
+			.replace(
+				/\{\{\s*avgQuality\s*\}\}/g,
+				(httpResponderData.quality + pkgplayData.quality + awaitFnData.quality) / 3,
+			),
+	);
 }
 
 main();

@@ -1,0 +1,20 @@
+{
+	"parser": "babel-eslint",
+	"parserOptions": {
+		"sourceType": "module",
+		"allowImportExportEverywhere": true,
+		"ecmaVersion": 11
+	},
+	"env": {
+		"commonjs": true,
+		"es2020": true,
+		"node": true
+	},
+	"extends": "eslint:recommended",
+	"rules": {
+		"indent": ["error", "tab"],
+		"linebreak-style": ["error", "unix"],
+		"quotes": ["error", "single"],
+		"semi": ["error", "always"]
+	}
+}

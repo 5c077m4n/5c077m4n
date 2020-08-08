@@ -1,8 +1,9 @@
 {
 	"name": "5c077m4n",
-	"version": "1.0.0",
-	"description": "- 🤓 Cool geek! - 🖥️ Coding is my passion - 👶 New(ish) father",
-	"main": "index.js",
+	"version": "0.0.1",
+	"description": "",
+	"main": "",
+	"type": "module",
 	"scripts": {
 		"build": "node build/index.js"
 	},
@@ -11,13 +12,14 @@
 		"url": "git+https://github.com/5c077m4n/5c077m4n.git"
 	},
 	"keywords": [],
-	"author": "",
-	"license": "ISC",
+	"author": "Roee Shapira",
+	"license": "MIT",
 	"bugs": {
 		"url": "https://github.com/5c077m4n/5c077m4n/issues"
 	},
 	"homepage": "https://github.com/5c077m4n/5c077m4n#readme",
 	"devDependencies": {
+		"babel-eslint": "^10.1.0",
 		"eslint": "^7.6.0",
 		"husky": "^4.2.5",
 		"lint-staged": "^10.2.11",
@@ -33,6 +35,7 @@
 		"*.{js,css,md}": "prettier --write"
 	},
 	"dependencies": {
-		"cross-fetch": "^3.0.5"
+		"cross-fetch": "^3.0.5",
+		"fs-extra": "^9.0.1"
 	}
 }
