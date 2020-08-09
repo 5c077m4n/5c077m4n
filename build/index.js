@@ -7,6 +7,7 @@ import fs from 'fs-extra';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
+const formatter = new Intl.NumberFormat();
 async function getPkgData(pkgName) {
 	const npmPackageDataUrl = 'https://api.npms.io/v2/package/';
 	const data = await fetch(npmPackageDataUrl + pkgName);
@@ -33,11 +34,14 @@ async function main() {
 		readmeTemplate
 			.replace(
 				/\{\{\s*downloadsCount\s*\}\}/g,
-				httpResponderData.downloadCount + pkgplayData.downloadCount + awaitFnData.downloadCount,
+				formatter.format(
+					httpResponderData.downloadCount + pkgplayData.downloadCount + awaitFnData.downloadCount,
+				),
 			)
 			.replace(
 				/\{\{\s*avgQuality\s*\}\}/g,
-				(((httpResponderData.quality + pkgplayData.quality + awaitFnData.quality) / 3) * 100).toFixed(1) + '%',
+				(((httpResponderData.quality + pkgplayData.quality + awaitFnData.quality) / 3) * 100).toFixed(1),
+				+'%',
 			)
 			.replace(/\{\{\s*dateNow\s*\}\}/g, `Updated on ${new Date().toLocaleDateString()}`),
 	);
