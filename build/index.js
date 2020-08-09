@@ -21,7 +21,7 @@ async function getPkgData(pkgName) {
 }
 
 async function main() {
-	const [httpResponderData, pkgplayData, awaitFnData] = await Promise.all([
+	const packagesData = await Promise.all([
 		getPkgData('http-responder'),
 		getPkgData('pkgplay'),
 		getPkgData('await-fn'),
@@ -34,13 +34,13 @@ async function main() {
 		readmeTemplate
 			.replace(
 				/\{\{\s*downloadsCount\s*\}\}/g,
-				numberFormatter.format(
-					httpResponderData.downloadCount + pkgplayData.downloadCount + awaitFnData.downloadCount,
-				),
+				numberFormatter.format(packagesData.reduce((total, { downloadCount }) => total + downloadCount, 0)),
 			)
 			.replace(
 				/\{\{\s*avgQuality\s*\}\}/g,
-				(((httpResponderData.quality + pkgplayData.quality + awaitFnData.quality) / 3) * 100).toFixed(1) + '%',
+				(packagesData.reduce((total, { quality }) => total + quality / packagesData.length, 0) * 100).toFixed(
+					1,
+				) + '%',
 			)
 			.replace(/\{\{\s*dateNow\s*\}\}/g, new Date().toLocaleDateString()),
 	);
