@@ -37,19 +37,26 @@ async function main() {
 		readmeTemplate
 			.replace(
 				/\{\{\s*downloadsCount\s*\}\}/g,
-				numberFormatter.format(packagesData.reduce((total, { downloadCount }) => total + downloadCount, 0)),
+				numberFormatter.format(
+					packagesData
+						.filter((pkg) => pkg.downloadCount)
+						.reduce((total, { downloadCount }) => total + downloadCount, 0),
+				),
 			)
 			.replace(
 				/\{\{\s*avgQuality\s*\}\}/g,
 				percentFormatter.format(
-					packagesData.reduce((total, { quality }) => total + quality, 0) / packagesData.length,
+					packagesData
+						.filter((pkg) => pkg.quality)
+						.reduce((total, { quality }, _, origin) => total + quality / origin.length, 0),
 				),
 			)
 			.replace(
 				/\{\{\s*codeCov\s*\}\}/g,
 				percentFormatter.format(
-					packagesData.reduce((total, { coverage }) => total + (coverage ?? 0), 0) /
-						packagesData.filter((pkg) => pkg.coverage).length,
+					packagesData
+						.filter((pkg) => pkg.coverage)
+						.reduce((total, { coverage }, _, origin) => total + coverage / origin.length, 0),
 				),
 			)
 			.replace(/\{\{\s*dateNow\s*\}\}/g, new Date().toLocaleDateString()),
