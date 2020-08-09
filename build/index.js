@@ -7,7 +7,7 @@ import fs from 'fs-extra';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-const formatter = new Intl.NumberFormat();
+const numberFormatter = new Intl.NumberFormat();
 async function getPkgData(pkgName) {
 	const npmPackageDataUrl = 'https://api.npms.io/v2/package/';
 	const data = await fetch(npmPackageDataUrl + pkgName);
@@ -34,7 +34,7 @@ async function main() {
 		readmeTemplate
 			.replace(
 				/\{\{\s*downloadsCount\s*\}\}/g,
-				formatter.format(
+				numberFormatter.format(
 					httpResponderData.downloadCount + pkgplayData.downloadCount + awaitFnData.downloadCount,
 				),
 			)
