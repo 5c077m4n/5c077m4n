@@ -5,6 +5,7 @@
 -   👶 New(ish) father
 -   🧮 {{ downloadsCount }} total download count on NPM
 -   👼 {{ avgQuality }} average NPM package quality
+-   🧐 {{ codeCov }} average code coverage
 
 ---
 

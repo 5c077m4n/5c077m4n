@@ -8,6 +8,8 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const numberFormatter = new Intl.NumberFormat();
+const percentFormatter = new Intl.NumberFormat('en-GB', { style: 'percent' });
+
 async function getPkgData(pkgName) {
 	const npmPackageDataUrl = 'https://api.npms.io/v2/package/';
 	const data = await fetch(npmPackageDataUrl + pkgName);
@@ -17,6 +19,7 @@ async function getPkgData(pkgName) {
 		pkgName,
 		downloadCount: json.collected.npm.downloads.reduce((total, { count }) => count + total, 0),
 		quality: json.score.detail.quality,
+		coverage: json.collected.source.coverage,
 	};
 }
 
@@ -38,9 +41,16 @@ async function main() {
 			)
 			.replace(
 				/\{\{\s*avgQuality\s*\}\}/g,
-				(packagesData.reduce((total, { quality }) => total + quality / packagesData.length, 0) * 100).toFixed(
-					1,
-				) + '%',
+				percentFormatter.format(
+					packagesData.reduce((total, { quality }) => total + quality, 0) / packagesData.length,
+				),
+			)
+			.replace(
+				/\{\{\s*codeCov\s*\}\}/g,
+				percentFormatter.format(
+					packagesData.reduce((total, { coverage }) => total + (coverage ?? 0), 0) /
+						packagesData.filter((pkg) => pkg.coverage).length,
+				),
 			)
 			.replace(/\{\{\s*dateNow\s*\}\}/g, new Date().toLocaleDateString()),
 	);

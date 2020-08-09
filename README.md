@@ -4,7 +4,8 @@
 -   🖥️ Coding is my passion
 -   👶 New(ish) father
 -   🧮 45,465 total download count on NPM
--   👼 83.9% average NPM package quality
+-   👼 84% average NPM package quality
+-   🧐 91% average code coverage
 
 ---
 
