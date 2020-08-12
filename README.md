@@ -3,8 +3,8 @@
 -   🤓 Cool geek!
 -   🖥️ Coding is my passion
 -   👶 New(ish) father
--   🧮 45,465 total downloads on NPM<a href="#updated"><sup>[1]</sup></a>
--   👼 84% average NPM package quality<a href="#updated"><sup>[1]</sup></a>
--   🧐 91% average code coverage<a href="#updated"><sup>[1]</sup></a>
+-   🧮 45,465 total downloads on NPM<sup>1</sup>
+-   👼 84% average NPM package quality<sup>1</sup>
+-   🧐 91% average code coverage<sup>1</sup>
 
 <sup>1</sup> Auto-updated on 8/12/2020
