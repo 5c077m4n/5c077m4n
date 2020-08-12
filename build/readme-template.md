@@ -3,8 +3,8 @@
 -   🤓 Cool geek!
 -   🖥️ Coding is my passion
 -   👶 New(ish) father
--   🧮 {{ downloadsCount }} total downloads on NPM<sup>[1](#updatee)</sup>
--   👼 {{ avgQuality }} average NPM package quality<sup>[1](#updated)</sup>
--   🧐 {{ codeCov }} average code coverage<sup>[1](#updated)</sup>
+-   🧮 {{ downloadsCount }} total downloads on NPM<a href="#updated"><sup>[1]</sup></a>
+-   👼 {{ avgQuality }} average NPM package quality<a href="#updated"><sup>[1]</sup></a>
+-   🧐 {{ codeCov }} average code coverage<a href="#updated"><sup>[1]</sup></a>
 
-<a name="updated">1</a>: Auto-updated on {{ dateNow }}
+<sup>1</sup> Auto-updated on {{ dateNow }}
