@@ -1,12 +1,10 @@
-### 👋 Hi y'all 👋
+### 👋 Hey y'all 👋
 
 -   🤓 Cool geek!
 -   🖥️ Coding is my passion
 -   👶 New(ish) father
--   🧮 {{ downloadsCount }} total download count on NPM
--   👼 {{ avgQuality }} average NPM package quality
--   🧐 {{ codeCov }} average code coverage
+-   🧮 {{ downloadsCount }} total downloads on NPM<sup>[1](#updatee)</sup>
+-   👼 {{ avgQuality }} average NPM package quality<sup>[1](#updated)</sup>
+-   🧐 {{ codeCov }} average code coverage<sup>[1](#updated)</sup>
 
----
-
-(Auto-updated on {{ dateNow }})
+<a name="updated">1</a>: Auto-updated on {{ dateNow }}
