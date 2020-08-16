@@ -63,4 +63,9 @@ async function main() {
 	);
 }
 
-main();
+main()
+	.then(() => console.log('Generated readme file successfully.'))
+	.catch((error) => {
+		console.error(error);
+		process.exit(1);
+	});
