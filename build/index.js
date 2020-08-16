@@ -18,7 +18,7 @@ async function getPkgData(pkgName) {
 
 	return {
 		pkgName,
-		downloadCount: json.collected.npm.downloads.reduce((total, { count }) => count + total, 0),
+		downloadCount: json.collected.npm.downloads.reduce((total, { count }) => total + count, 0),
 		quality: json.score.detail.quality,
 		coverage: json.collected.source.coverage,
 	};
