@@ -11,8 +11,7 @@ const numberFormatter = new Intl.NumberFormat();
 const percentFormatter = new Intl.NumberFormat('en-GB', { style: 'percent' });
 const placeholderRegex = (str) => new RegExp(String.raw`\{\{\s*${str}\s*\}\}`, 'g');
 
-async function getPkgData(pkgName) {
-	const npmPackageDataUrl = 'https://api.npms.io/v2/package/';
+async function getPkgData(pkgName, npmPackageDataUrl = 'https://api.npms.io/v2/package/') {
 	const data = await fetch(npmPackageDataUrl + pkgName);
 	const json = await data.json();
 
