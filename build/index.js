@@ -9,6 +9,7 @@ const __dirname = path.dirname(__filename);
 
 const numberFormatter = new Intl.NumberFormat();
 const percentFormatter = new Intl.NumberFormat('en-GB', { style: 'percent' });
+const placeholderRegex = (str) => new RegExp(String.raw`\{\{\s*${str}\s*\}\}`, 'g');
 
 async function getPkgData(pkgName) {
 	const npmPackageDataUrl = 'https://api.npms.io/v2/package/';
@@ -36,7 +37,7 @@ async function main() {
 		path.resolve(__dirname, '../README.md'),
 		readmeTemplate
 			.replace(
-				/\{\{\s*downloadsCount\s*\}\}/g,
+				placeholderRegex('downloadsCount'),
 				numberFormatter.format(
 					packagesData
 						.filter((pkg) => pkg.downloadCount)
@@ -44,7 +45,7 @@ async function main() {
 				),
 			)
 			.replace(
-				/\{\{\s*avgQuality\s*\}\}/g,
+				placeholderRegex('avgQuality'),
 				percentFormatter.format(
 					packagesData
 						.filter((pkg) => pkg.quality)
@@ -52,14 +53,14 @@ async function main() {
 				),
 			)
 			.replace(
-				/\{\{\s*codeCov\s*\}\}/g,
+				placeholderRegex('codeCov'),
 				percentFormatter.format(
 					packagesData
 						.filter((pkg) => pkg.coverage)
 						.reduce((total, { coverage }, _, origin) => total + coverage / origin.length, 0),
 				),
 			)
-			.replace(/\{\{\s*dateNow\s*\}\}/g, new Date().toLocaleDateString()),
+			.replace(placeholderRegex('todayDate'), new Date().toDateString()),
 	);
 }
 
