@@ -7,4 +7,4 @@
 -   👼 88% average NPM package quality<sup>1</sup>
 -   🧐 91% average code coverage<sup>1</sup>
 
-<sup>1</sup> Auto-updated on Sat Jan 30 2021
+<sup>1</sup> Auto-updated on Sun Jan 31 2021
