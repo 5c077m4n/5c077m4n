@@ -7,6 +7,7 @@ on:
   push:
   schedule:
     - cron: "0 0 * * *"
+    - workflow_dispatch:
 
 jobs:
   build:
@@ -27,4 +28,4 @@ jobs:
           author_name: Roee Shapira
           author_email: roy.shap1@gmail.com
           message: "Built new readme file"
-          add: "."
+          add: "--update"
