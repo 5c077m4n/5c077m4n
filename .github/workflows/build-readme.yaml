@@ -18,8 +18,8 @@ jobs:
       - uses: actions/setup-node@v1
         with:
           node-version: 14.x
-      - run: npm ci
-      - run: npm run build
+      - run: yarn
+      - run: yarn build
       - name: Create github activity list
         uses: jamesgeorge007/github-activity-readme@master
         env:
