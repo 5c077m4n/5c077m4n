@@ -7,12 +7,6 @@
 -   👼 88% average NPM package quality<sup>1</sup>
 -   🧐 91% average code coverage<sup>1</sup>
 
-<details>
-	<summary>⚡ Github Activity</summary>
-	<!--START_SECTION:activity-->
-	<!--END_SECTION:activity-->
-</details>
-
 ### Connect with me:
 
 [<img align="center" alt="Roee Shapira | LinkedIn" width="22px" src="https://cdn.jsdelivr.net/npm/simple-icons@v3/icons/linkedin.svg" />][linkedin]
