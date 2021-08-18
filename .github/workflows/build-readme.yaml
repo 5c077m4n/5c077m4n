@@ -20,12 +20,16 @@ jobs:
           node-version: 14.x
       - run: npm ci
       - run: npm run build
+      - name: Create github activity list
+        uses: jamesgeorge007/github-activity-readme@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Commit changes
         uses: EndBug/add-and-commit@v4
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           author_name: Roee Shapira
-          author_email: roy.shap1@gmail.com
+          author_email: ro33.sha@gmail.com
           message: "Built new readme file"
           add: "--update"

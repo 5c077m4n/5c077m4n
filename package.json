@@ -36,7 +36,7 @@
 		"*.{js,css,md}": "prettier --write"
 	},
 	"dependencies": {
-		"cross-fetch": "^3.0.5",
-		"fs-extra": "^9.0.1"
+		"cross-fetch": "^3.1.4",
+		"fs-extra": "^10.0.0"
 	}
 }
