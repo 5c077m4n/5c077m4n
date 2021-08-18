@@ -1,15 +1,11 @@
-import * as path from 'path';
-import { fileURLToPath } from 'url';
+const path = require('path');
 
-import fetch from 'cross-fetch';
-import fs from 'fs-extra';
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+const fs = require('fs-extra');
+const fetch = require('cross-fetch');
 
 const numberFormatter = new Intl.NumberFormat();
 const percentFormatter = new Intl.NumberFormat('en-GB', { style: 'percent' });
-const placeholderRegex = (str) => new RegExp(String.raw`\{\{\s*${str}\s*\}\}`, 'g');
+const placeholderRegex = str => new RegExp(String.raw`\{\{\s*${str}\s*\}\}`, 'g');
 
 async function getPkgData(pkgName, npmPackageDataUrl = 'https://api.npms.io/v2/package/') {
 	const data = await fetch(npmPackageDataUrl + pkgName);
@@ -39,7 +35,7 @@ async function main() {
 				placeholderRegex('downloadsCount'),
 				numberFormatter.format(
 					packagesData
-						.filter((pkg) => pkg.downloadCount)
+						.filter(pkg => pkg.downloadCount)
 						.reduce((total, { downloadCount }) => total + downloadCount, 0),
 				),
 			)
@@ -47,7 +43,7 @@ async function main() {
 				placeholderRegex('avgQuality'),
 				percentFormatter.format(
 					packagesData
-						.filter((pkg) => pkg.quality)
+						.filter(pkg => pkg.quality)
 						.reduce((total, { quality }, _, origin) => total + quality / origin.length, 0),
 				),
 			)
@@ -55,7 +51,7 @@ async function main() {
 				placeholderRegex('codeCov'),
 				percentFormatter.format(
 					packagesData
-						.filter((pkg) => pkg.coverage)
+						.filter(pkg => pkg.coverage)
 						.reduce((total, { coverage }, _, origin) => total + coverage / origin.length, 0),
 				),
 			)
@@ -65,7 +61,7 @@ async function main() {
 
 main()
 	.then(() => console.log('Generated readme file successfully.'))
-	.catch((error) => {
+	.catch(error => {
 		console.error(error);
 		process.exit(1);
 	});

@@ -3,7 +3,6 @@
 	"version": "0.0.1",
 	"description": "",
 	"main": "",
-	"type": "module",
 	"scripts": {
 		"build": "node build/index.js",
 		"prepare": "npm run build"
@@ -20,8 +19,6 @@
 	},
 	"homepage": "https://github.com/5c077m4n/5c077m4n#readme",
 	"devDependencies": {
-		"@babel/eslint-parser": "^7.15.0",
-		"babel-eslint": "^10.1.0",
 		"eslint": "^7.6.0",
 		"husky": "^4.2.5",
 		"lint-staged": "^10.2.11",

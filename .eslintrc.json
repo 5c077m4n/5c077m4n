@@ -1,8 +1,5 @@
 {
-	"parser": "@babel/eslint-parser",
 	"parserOptions": {
-		"sourceType": "module",
-		"allowImportExportEverywhere": true,
 		"ecmaVersion": 11
 	},
 	"env": {
