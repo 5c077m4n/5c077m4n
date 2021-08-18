@@ -1,10 +1,16 @@
-### 👋 Hey y'all 👋
+### 👋 Hey there - I'm Roee 👋
 
 -   🤓 Cool geek!
--   🖥️ Coding is my passion
+-   🖥️  Coding is my passion
 -   👶 New(ish) father
 -   🧮 20,419 total downloads on NPM<sup>1</sup>
 -   👼 88% average NPM package quality<sup>1</sup>
 -   🧐 91% average code coverage<sup>1</sup>
 
 <sup>1</sup> Auto-updated on Wed Aug 18 2021
+
+### Connect with me:
+
+[<img align="left" alt="Roee Shapira | LinkedIn" width="22px" src="https://cdn.jsdelivr.net/npm/simple-icons@v3/icons/linkedin.svg" />][linkedin]
+
+[linkedin]: https://www.linkedin.com/in/roee-shapira/
