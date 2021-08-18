@@ -9,6 +9,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "5c077m4n@workspace:."
   dependencies:
+    "@babel/eslint-parser": ^7.15.0
     babel-eslint: ^10.1.0
     cross-fetch: ^3.1.4
     eslint: ^7.6.0
@@ -34,6 +35,20 @@ __metadata:
   dependencies:
     "@babel/highlight": ^7.14.5
   checksum: 0adbe4f8d91586f764f524e57631f582ab988b2ef504391a5d89db29bfaaf7c67c237798ed4a249b6a2d7135852cf94d3d07ce6b9739dd1df1f271d5ed069565
+  languageName: node
+  linkType: hard
+
+"@babel/eslint-parser@npm:^7.15.0":
+  version: 7.15.0
+  resolution: "@babel/eslint-parser@npm:7.15.0"
+  dependencies:
+    eslint-scope: ^5.1.1
+    eslint-visitor-keys: ^2.1.0
+    semver: ^6.3.0
+  peerDependencies:
+    "@babel/core": ">=7.11.0"
+    eslint: ">=7.5.0"
+  checksum: fe2a6f59be3bc976b7b01432cab107462b2c8a0af936f4ab0db9ea597df97e6c029fa647ce95505f4b655830bdff42918da0fb6eafbe989aa24f989fed1aa92e
   languageName: node
   linkType: hard
 
@@ -607,7 +622,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint-visitor-keys@npm:^2.0.0":
+"eslint-visitor-keys@npm:^2.0.0, eslint-visitor-keys@npm:^2.1.0":
   version: 2.1.0
   resolution: "eslint-visitor-keys@npm:2.1.0"
   checksum: e3081d7dd2611a35f0388bbdc2f5da60b3a3c5b8b6e928daffff7391146b434d691577aa95064c8b7faad0b8a680266bcda0a42439c18c717b80e6718d7e267d
@@ -1620,6 +1635,15 @@ resolve@^1.12.0:
   version: 3.1.2
   resolution: "semver-regex@npm:3.1.2"
   checksum: 688c3e0b221c219dbe6b9c086f2ff94d4119105ab12e669ba99e92fb8fa4734a2c802e8287eda71f6ee346c67f08dc7b53896fa6a70b070d52b57d5d078657f6
+  languageName: node
+  linkType: hard
+
+"semver@npm:^6.3.0":
+  version: 6.3.0
+  resolution: "semver@npm:6.3.0"
+  bin:
+    semver: ./bin/semver.js
+  checksum: 1b26ecf6db9e8292dd90df4e781d91875c0dcc1b1909e70f5d12959a23c7eebb8f01ea581c00783bbee72ceeaad9505797c381756326073850dc36ed284b21b9
   languageName: node
   linkType: hard
 
