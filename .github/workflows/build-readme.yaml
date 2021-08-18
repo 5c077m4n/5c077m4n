@@ -4,8 +4,9 @@
 name: Build README
 
 on:
+  push:
   schedule:
-    - cron: "*/30 * * * *"
+    - cron: "0 0 * * *"
   workflow_dispatch:
 
 jobs:
@@ -19,10 +20,6 @@ jobs:
           node-version: 14.x
       - run: yarn
       - run: yarn build
-      - name: Create github activity list
-        uses: jamesgeorge007/github-activity-readme@master
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Commit changes
         uses: EndBug/add-and-commit@v4
         env:

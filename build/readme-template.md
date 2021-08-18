@@ -1,17 +1,11 @@
 ### 👋 Hey there - I'm Roee 👋
 
-- 🤓 Cool geek!
-- 🖥️ Coding is my passion
-- 👶 New(ish) father
-- 🧮 {{ downloadsCount }} total downloads on NPM<sup>1</sup>
-- 👼 {{ avgQuality }} average NPM package quality<sup>1</sup>
-- 🧐 {{ codeCov }} average code coverage<sup>1</sup>
-
-<details>
-	<summary>⚡ Github Activity</summary>
-	<!--START_SECTION:activity-->
-	<!--END_SECTION:activity-->
-</details>
+-   🤓 Cool geek!
+-   🖥️ Coding is my passion
+-   👶 New(ish) father
+-   🧮 {{ downloadsCount }} total downloads on NPM<sup>1</sup>
+-   👼 {{ avgQuality }} average NPM package quality<sup>1</sup>
+-   🧐 {{ codeCov }} average code coverage<sup>1</sup>
 
 ### Connect with me:
 
