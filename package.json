@@ -2,27 +2,21 @@
 	"name": "5c077m4n",
 	"version": "0.0.1",
 	"description": "",
-	"main": "",
-	"scripts": {
-		"build": "node build/index.js",
-		"prepare": "npm run build"
+	"keywords": [],
+	"homepage": "https://github.com/5c077m4n/5c077m4n#readme",
+	"bugs": {
+		"url": "https://github.com/5c077m4n/5c077m4n/issues"
 	},
 	"repository": {
 		"type": "git",
 		"url": "git+https://github.com/5c077m4n/5c077m4n.git"
 	},
-	"keywords": [],
-	"author": "Roee Shapira",
 	"license": "MIT",
-	"bugs": {
-		"url": "https://github.com/5c077m4n/5c077m4n/issues"
-	},
-	"homepage": "https://github.com/5c077m4n/5c077m4n#readme",
-	"devDependencies": {
-		"eslint": "^7.6.0",
-		"husky": "^4.2.5",
-		"lint-staged": "^10.2.11",
-		"prettier": "^2.0.5"
+	"author": "Roee Shapira",
+	"main": "",
+	"scripts": {
+		"build": "node build/index.js",
+		"prepare": "yarn build"
 	},
 	"husky": {
 		"hooks": {
@@ -30,11 +24,19 @@
 		}
 	},
 	"lint-staged": {
+		"**/package.json": "sort-package-json",
 		"*.js": "eslint --cache --fix",
 		"*.{js,css,md}": "prettier --write"
 	},
 	"dependencies": {
 		"cross-fetch": "^3.1.4",
 		"fs-extra": "^10.0.0"
+	},
+	"devDependencies": {
+		"eslint": "^7.6.0",
+		"husky": "^4.2.5",
+		"lint-staged": "^10.2.11",
+		"prettier": "^2.0.5",
+		"sort-package-json": "^1.50.0"
 	}
 }
