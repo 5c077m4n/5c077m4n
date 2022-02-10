@@ -11,6 +11,6 @@
 
 [<img align="center" alt="Roee Shapira | LinkedIn" width="22px" src="https://cdn.jsdelivr.net/npm/simple-icons@v3/icons/linkedin.svg" />][linkedin]
 
-<sup>1</sup> Auto-updated on Wed Feb 09 2022
+<sup>1</sup> Auto-updated on Thu Feb 10 2022
 
 [linkedin]: https://www.linkedin.com/in/roee-shapira/
