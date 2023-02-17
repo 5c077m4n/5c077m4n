@@ -1,6 +1,4 @@
-<div style="width: 100%;">
-  <img align="center" alt="title" src="./assets/title.svg" />
-</div >
+<img align="center" alt="title" src="./assets/title.svg" style="width: 100%" />
 
 -   🤓 Cool geek!
 -   🖥️ Coding is my passion
