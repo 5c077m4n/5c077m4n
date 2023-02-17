@@ -31,6 +31,9 @@
           display: inline-block;
           transform-origin: 70% 70%;
         }
+        @media (prefers-reduced-motion) {
+          .hand-wave { animation: none; }
+        }
       </style>
       <div class="container">
         <h1>Hi there, my name is Roee Shapira <span class="hand-wave">👋</span></h1>
