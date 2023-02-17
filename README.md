@@ -1,4 +1,4 @@
-<img align="center" alt="title" src="./title.svg" />
+<img align="center" alt="title" src="./assets/title.svg" />
 
 -   🤓 Cool geek!
 -   🖥️ Coding is my passion
