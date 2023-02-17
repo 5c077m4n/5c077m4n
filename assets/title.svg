@@ -27,7 +27,7 @@
           .container { --text-color: #A9A9A9; }
         }
         .hand-wave {
-          animation: hand-wave 1.5s linear -0.5s infinite;
+          animation: hand-wave 2s linear -0.5s infinite;
           display: inline-block;
           transform-origin: 70% 70%;
         }
