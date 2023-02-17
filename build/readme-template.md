@@ -28,12 +28,10 @@
           transform-origin: 70% 70%;
         }
       </style>
-
       <div class="container">
-        <h1>Hi there, my name is Nikola <span class="hi">👋</span></h1>
+        <h1>Hi there, my name is Roee Shapira <span class="hi">👋</span></h1>
       </div>
     </div>
-
   </foreignObject>
 </svg>
 
@@ -47,7 +45,7 @@
 ### Connect with me:
 
 [<img align="center" alt="Roee Shapira | LinkedIn" src="https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white" />][linkedin]
-[<img align="center" alt="Roee Shapira | LinkedIn" src="https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white" />][github]
+[<img align="center" alt="Roee Shapira | GitHub" src="https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white" />][github]
 
 <sup>1</sup> Auto-updated on {{ todayDate }}
 
