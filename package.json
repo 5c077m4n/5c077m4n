@@ -1,4 +1,5 @@
 {
+	"$schema": "https://raw.githubusercontent.com/SchemaStore/schemastore/master/src/schemas/json/package.json",
 	"name": "5c077m4n",
 	"version": "0.0.1",
 	"description": "",
@@ -13,14 +14,15 @@
 	},
 	"license": "MIT",
 	"author": "Roee Shapira",
-	"main": "build/index.js",
+	"module": "src/index.mjs",
 	"scripts": {
-		"build": "node build/index.js",
-		"prepare": "yarn build"
+		"build": "node src/index.mjs",
+		"lint-staged": "lint-staged",
+		"prepare": "pnpm build && husky install"
 	},
 	"husky": {
 		"hooks": {
-			"pre-commit": "lint-staged --allow-empty"
+			"pre-commit": "lint-staged"
 		}
 	},
 	"lint-staged": {
@@ -28,15 +30,11 @@
 		"*.js": "eslint --cache --fix",
 		"*.{js,css,md,yaml,yml}": "prettier --write"
 	},
-	"dependencies": {
-		"cross-fetch": "^3.1.4",
-		"fs-extra": "^10.0.0"
-	},
 	"devDependencies": {
-		"eslint": "^7.6.0",
-		"husky": "^4.2.5",
-		"lint-staged": "^10.2.11",
+		"eslint": "^8.34.0",
+		"husky": "^8.0.0",
+		"lint-staged": "^13.1.2",
 		"prettier": "^2.0.5",
-		"sort-package-json": "^1.50.0"
+		"sort-package-json": "^2.4.1"
 	}
 }

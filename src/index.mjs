@@ -1,14 +1,15 @@
-const path = require('path');
+import { readFile, writeFile } from "node:fs/promises";
+import { resolve, dirname } from "node:path";
+import { fileURLToPath } from "node:url";
 
-const fs = require('fs-extra');
-const fetch = require('cross-fetch');
+const __dirname = dirname(fileURLToPath(import.meta.url));
 
 const numberFormatter = new Intl.NumberFormat();
-const percentFormatter = new Intl.NumberFormat('en-GB', { style: 'percent' });
-const placeholderRegex = str => new RegExp(String.raw`\{\{\s*${str}\s*\}\}`, 'g');
+const percentFormatter = new Intl.NumberFormat("en-GB", { style: "percent" });
+const placeholderRegex = str => new RegExp(String.raw`\{\{\s*${str}\s*\}\}`, "g");
 
-async function getPkgData(pkgName, npmPackageDataUrl = 'https://api.npms.io/v2/package/') {
-	const data = await fetch(npmPackageDataUrl + pkgName);
+async function getPkgData(pkgName, npmPackageDataUrl = "https://api.npms.io/v2/package/") {
+	const data = await globalThis.fetch(npmPackageDataUrl + pkgName);
 	const json = await data.json();
 
 	return {
@@ -21,18 +22,17 @@ async function getPkgData(pkgName, npmPackageDataUrl = 'https://api.npms.io/v2/p
 
 async function main() {
 	const packagesData = await Promise.all([
-		getPkgData('http-responder'),
-		getPkgData('pkgplay'),
-		getPkgData('await-fn'),
+		getPkgData("http-responder"),
+		getPkgData("pkgplay"),
+		getPkgData("await-fn"),
 	]);
 
-	const readmeTemplateBuffer = await fs.readFile(path.resolve(__dirname, './readme-template.md'));
-	const readmeTemplate = readmeTemplateBuffer.toString();
-	await fs.writeFile(
-		path.resolve(__dirname, '../README.md'),
+	const readmeTemplate = await readFile(resolve(__dirname, "./readme-template.md"), "utf8");
+	await writeFile(
+		resolve(__dirname, "../README.md"),
 		readmeTemplate
 			.replace(
-				placeholderRegex('downloadsCount'),
+				placeholderRegex("downloadsCount"),
 				numberFormatter.format(
 					packagesData
 						.filter(pkg => pkg.downloadCount)
@@ -40,7 +40,7 @@ async function main() {
 				),
 			)
 			.replace(
-				placeholderRegex('avgQuality'),
+				placeholderRegex("avgQuality"),
 				percentFormatter.format(
 					packagesData
 						.filter(pkg => pkg.quality)
@@ -48,19 +48,19 @@ async function main() {
 				),
 			)
 			.replace(
-				placeholderRegex('codeCov'),
+				placeholderRegex("codeCov"),
 				percentFormatter.format(
 					packagesData
 						.filter(pkg => pkg.coverage)
 						.reduce((total, { coverage }, _, origin) => total + coverage / origin.length, 0),
 				),
 			)
-			.replace(placeholderRegex('todayDate'), new Date().toDateString()),
+			.replace(placeholderRegex("todayDate"), new Date().toDateString()),
 	);
 }
 
 main()
-	.then(() => console.log('Generated readme file successfully.'))
+	.then(() => console.log("Generated readme file successfully."))
 	.catch(error => {
 		console.error(error);
 		process.exit(1);
