@@ -2,7 +2,7 @@
   <foreignObject width="100%" height="100%">
     <div xmlns="http://www.w3.org/1999/xhtml">
       <style>
-        @keyframes hand-wave  {
+        @keyframes hi {
             0% { transform: rotate( 0.0deg); }
            10% { transform: rotate(14.0deg); }
            20% { transform: rotate(-8.0deg); }
@@ -28,7 +28,7 @@
         }
 
         .hi {
-          animation: hand-wave 1.5s linear -0.5s infinite;
+          animation: hi 1.5s linear -0.5s infinite;
           display: inline-block;
           transform-origin: 70% 70%;
         }
@@ -55,7 +55,7 @@
 
 ### Connect with me:
 
-[<img align="center" alt="Roee Shapira | LinkedIn" width="22px" src="https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white" />][linkedin]
+[<img align="center" alt="Roee Shapira | LinkedIn" src="https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white" />][linkedin]
 
 <sup>1</sup> Auto-updated on Fri Feb 17 2023
 
