@@ -1,0 +1,32 @@
+---
+name: Build README
+
+on:
+  push:
+  schedule:
+    - cron: "0 0 * * *"
+  workflow_dispatch:
+
+concurrency:
+  group: ci-${{ github.sha }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+      - name: Install deps
+        run: go mod tidy
+      - name: Build
+        run: go run .
+      - name: Commit changes
+        uses: EndBug/add-and-commit@v9
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          author_name: Roee Shapira
+          message: "Built new readme file"
+          add: "--update"
