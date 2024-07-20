@@ -3,6 +3,7 @@ package main
 
 import (
 	"encoding/json"
+	"errors"
 	"fmt"
 	"io"
 	"log"
@@ -65,7 +66,10 @@ type (
 func getPkgMetadata(name string) (*pkgMetadata, error) {
 	resp, err := http.Get(npmsURL + name)
 	if err != nil {
-		return nil, err
+		return nil, errors.Join(
+			fmt.Errorf("could not fetch `%s`'s package metadata", name),
+			err,
+		)
 	}
 	defer func() {
 		if errBody := resp.Body.Close(); errBody != nil {
@@ -75,12 +79,18 @@ func getPkgMetadata(name string) (*pkgMetadata, error) {
 
 	rawBody, err := io.ReadAll(resp.Body)
 	if err != nil {
-		return nil, err
+		return nil, errors.Join(
+			fmt.Errorf("could not read `%s`'s package metadata", name),
+			err,
+		)
 	}
 
 	pkgMetaRaw := &pkgMetadataRaw{}
 	if err := json.Unmarshal(rawBody, pkgMetaRaw); err != nil {
-		return nil, err
+		return nil, errors.Join(
+			fmt.Errorf("could not parse `%s`'s package metadata", name),
+			err,
+		)
 	}
 
 	meta := &pkgMetadata{}
@@ -119,19 +129,18 @@ func main() {
 	overallMetadata := &pkgMetadata{}
 
 	for _, pkg := range packages {
-		metadata, errMetadata := getPkgMetadata(pkg)
-		if errMetadata != nil {
+		if metadata, errMetadata := getPkgMetadata(pkg); errMetadata != nil {
 			log.Println(errMetadata)
+		} else {
+			overallMetadata.DownloadCount += metadata.DownloadCount
+			overallMetadata.Quality += metadata.Quality / float32(len(packages)) * 100
+			overallMetadata.Coverage += metadata.Coverage / float32(len(packages)) * 100
 		}
-
-		overallMetadata.DownloadCount += metadata.DownloadCount
-		overallMetadata.Quality += metadata.Quality / float32(len(packages)) * 100
-		overallMetadata.Coverage += metadata.Coverage / float32(len(packages)) * 100
 	}
 
 	f, err := os.Create("README.md")
 	if err != nil {
-		log.Fatal(err)
+		log.Fatalln(err)
 	}
 	defer func() {
 		if errClose := f.Close(); errClose != nil {
