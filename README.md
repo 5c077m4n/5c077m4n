@@ -1,11 +1,11 @@
 <img align="center" alt="title" src="./assets/title.svg" style="width: 100%" />
 
--   🤓 Cool geek!
--   🖥️ Coding is my passion
--   👶 New(ish) father
--   🧮 19,243 total downloads on NPM<sup>1</sup>
--   👼 87.98% average NPM package quality<sup>1</sup>
--   🧐 60.67% average code coverage<sup>1</sup>
+- 🤓 Cool geek!
+- 🖥️ Coding is my passion
+- 👶 New(ish) father
+- 🧮 19,243 total downloads on NPM<sup>1</sup>
+- 👼 87.98% average NPM package quality<sup>1</sup>
+- 🧐 60.67% average code coverage<sup>1</sup>
 
 ### Connect with me:
 

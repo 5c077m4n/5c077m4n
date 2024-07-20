@@ -1,11 +1,11 @@
 <img align="center" alt="title" src="./assets/title.svg" style="width: 100%" />
 
--   🤓 Cool geek!
--   🖥️ Coding is my passion
--   👶 New(ish) father
--   🧮 {{ .DownloadCount }} total downloads on NPM<sup>1</sup>
--   👼 {{ .Quality }} average NPM package quality<sup>1</sup>
--   🧐 {{ .Coverage }} average code coverage<sup>1</sup>
+- 🤓 Cool geek!
+- 🖥️ Coding is my passion
+- 👶 New(ish) father
+- 🧮 {{ formatNumber .DownloadCount }} total downloads on NPM<sup>1</sup>
+- 👼 {{ formatPercent .Quality }} average NPM package quality<sup>1</sup>
+- 🧐 {{ formatPercent .Coverage }} average code coverage<sup>1</sup>
 
 ### Connect with me:
 
@@ -14,7 +14,7 @@
 
 ---
 
-<sup>1</sup> Auto-updated on {{ .TodayDate }}
+<sup>1</sup> Auto-updated on {{ todayDate }}
 
 [linkedin]: https://www.linkedin.com/in/ro13-s/
 [github]: https://github.com/5c077m4n

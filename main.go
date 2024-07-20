@@ -8,6 +8,7 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"path"
 	"text/template"
 	"time"
 
@@ -15,9 +16,26 @@ import (
 	"golang.org/x/text/message"
 )
 
-const npmsURL = "https://api.npms.io/v2/package/"
+const (
+	npmsURL        = "https://api.npms.io/v2/package/"
+	readmeTmplPath = "./assets/readme-template.md.tmpl"
+)
 
-var packages = []string{"http-responder", "pkgplay", "await-fn"}
+var (
+	packages    = []string{"http-responder", "pkgplay", "await-fn"}
+	tmplFuncMap = map[string]any{
+		"formatNumber": func(n uint) string {
+			return message.NewPrinter(language.English).
+				Sprintf("%d", n)
+		},
+		"formatPercent": func(n float32) string {
+			return fmt.Sprintf("%.2f%%", n)
+		},
+		"todayDate": func() string {
+			return time.Now().Format("January 2, 2006")
+		},
+	}
+)
 
 type (
 	pkgMetadataRaw struct {
@@ -92,7 +110,8 @@ func getPkgMetadata(name string) (*pkgMetadata, error) {
 }
 
 func main() {
-	tmpl, err := template.ParseFiles("./assets/readme-template.md.tmpl")
+	tmpl := template.New(path.Base(readmeTmplPath)).Funcs(tmplFuncMap)
+	tmpl, err := tmpl.ParseFiles(readmeTmplPath)
 	if err != nil {
 		log.Fatalln(err)
 	}
@@ -100,9 +119,9 @@ func main() {
 	overallMetadata := &pkgMetadata{}
 
 	for _, pkg := range packages {
-		metadata, pkgErr := getPkgMetadata(pkg)
-		if pkgErr != nil {
-			log.Println(pkgErr)
+		metadata, errMetadata := getPkgMetadata(pkg)
+		if errMetadata != nil {
+			log.Println(errMetadata)
 		}
 
 		overallMetadata.DownloadCount += metadata.DownloadCount
@@ -120,11 +139,7 @@ func main() {
 		}
 	}()
 
-	tmpl.Execute(f, map[string]string{
-		"DownloadCount": message.NewPrinter(language.English).
-			Sprintf("%d", overallMetadata.DownloadCount),
-		"Quality":   fmt.Sprintf("%.2f%%", overallMetadata.Quality),
-		"Coverage":  fmt.Sprintf("%.2f%%", overallMetadata.Coverage),
-		"TodayDate": time.Now().Format("January 2, 2006"),
-	})
+	if err := tmpl.Execute(f, overallMetadata); err != nil {
+		log.Fatalln(err)
+	}
 }
