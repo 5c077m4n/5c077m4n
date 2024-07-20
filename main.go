@@ -1,3 +1,4 @@
+// Package main `README.md` builder script
 package main
 
 import (
