@@ -30,6 +30,6 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          author_name: Roee Shapira
-          message: "Built new readme file"
+          author_name: Roee
+          message: "Update readme file"
           add: "--update"

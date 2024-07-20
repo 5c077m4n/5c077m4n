@@ -16,35 +16,43 @@ import (
 
 const npmsURL = "https://api.npms.io/v2/package/"
 
-type pkgMetadataRaw struct {
-	Collected *struct {
-		Npm *struct {
-			Downloads []struct {
-				Count *uint `json:"count"`
-			} `json:"downloads"`
-		} `json:"npm"`
-		Source *struct {
-			Coverage *float32 `json:"coverage"`
-		} `json:"source"`
-	} `json:"collected"`
-	Score *struct {
-		Detail *struct {
-			Quality *float32 `json:"quality"`
-		} `json:"detail"`
-	} `json:"score"`
-}
-type pkgMetadata struct {
-	DownloadCount uint    `json:"downloadCount"`
-	Quality       float32 `json:"quality"`
-	Coverage      float32 `json:"coverage"`
-}
+var packages = []string{"http-responder", "pkgplay", "await-fn"}
+
+type (
+	pkgMetadataRaw struct {
+		Collected *struct {
+			Npm *struct {
+				Downloads []struct {
+					Count *uint `json:"count"`
+				} `json:"downloads"`
+			} `json:"npm"`
+			Source *struct {
+				Coverage *float32 `json:"coverage"`
+			} `json:"source"`
+		} `json:"collected"`
+		Score *struct {
+			Detail *struct {
+				Quality *float32 `json:"quality"`
+			} `json:"detail"`
+		} `json:"score"`
+	}
+	pkgMetadata struct {
+		DownloadCount uint    `json:"downloadCount"`
+		Quality       float32 `json:"quality"`
+		Coverage      float32 `json:"coverage"`
+	}
+)
 
 func getPkgMetadata(name string) (*pkgMetadata, error) {
 	resp, err := http.Get(npmsURL + name)
 	if err != nil {
 		return nil, err
 	}
-	defer resp.Body.Close()
+	defer func() {
+		if errBody := resp.Body.Close(); errBody != nil {
+			log.Fatalln(errBody)
+		}
+	}()
 
 	rawBody, err := io.ReadAll(resp.Body)
 	if err != nil {
@@ -56,35 +64,30 @@ func getPkgMetadata(name string) (*pkgMetadata, error) {
 		return nil, err
 	}
 
-	var dlCount uint
+	meta := &pkgMetadata{}
+
 	if pkgMetaRaw.Collected != nil &&
 		pkgMetaRaw.Collected.Npm != nil &&
 		pkgMetaRaw.Collected.Npm.Downloads != nil &&
 		len(pkgMetaRaw.Collected.Npm.Downloads) > 0 {
 		for _, dlObj := range pkgMetaRaw.Collected.Npm.Downloads {
 			if dlObj.Count != nil {
-				dlCount += *dlObj.Count
+				meta.DownloadCount += *dlObj.Count
 			}
 		}
 	}
-	var quality float32
 	if pkgMetaRaw.Score != nil &&
 		pkgMetaRaw.Score.Detail != nil &&
 		pkgMetaRaw.Score.Detail.Quality != nil {
-		quality = *pkgMetaRaw.Score.Detail.Quality
+		meta.Quality = *pkgMetaRaw.Score.Detail.Quality
 	}
-	var coverage float32
 	if pkgMetaRaw.Collected != nil &&
 		pkgMetaRaw.Collected.Source != nil &&
 		pkgMetaRaw.Collected.Source.Coverage != nil {
-		coverage = *pkgMetaRaw.Collected.Source.Coverage
+		meta.Coverage = *pkgMetaRaw.Collected.Source.Coverage
 	}
 
-	return &pkgMetadata{
-		DownloadCount: dlCount,
-		Quality:       quality,
-		Coverage:      coverage,
-	}, nil
+	return meta, nil
 }
 
 func main() {
@@ -95,7 +98,6 @@ func main() {
 
 	overallMetadata := &pkgMetadata{}
 
-	packages := []string{"http-responder", "pkgplay", "await-fn"}
 	for _, pkg := range packages {
 		metadata, pkgErr := getPkgMetadata(pkg)
 		if pkgErr != nil {
@@ -112,8 +114,8 @@ func main() {
 		log.Fatal(err)
 	}
 	defer func() {
-		if err := f.Close(); err != nil {
-			log.Fatalln(err)
+		if errClose := f.Close(); errClose != nil {
+			log.Fatalln(errClose)
 		}
 	}()
 
