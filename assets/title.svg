@@ -1,7 +1,26 @@
-<svg fill="none" viewBox="0 0 600 200" width="600" height="200" xmlns="http://www.w3.org/2000/svg">
+<svg fill="none" viewBox="0 0 600 100" width="600" height="100" xmlns="http://www.w3.org/2000/svg">
   <foreignObject width="100%" height="100%">
     <div xmlns="http://www.w3.org/1999/xhtml">
       <style>
+        .container {
+          --text-color: #E1D9D1;
+
+          width: 100%;
+          height: 100%;
+          background-size: 400% 400%;
+
+          display: flex;
+          justify-content: center;
+          align-items: center;
+
+          color: var(--text-color);
+          font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+          font-size: 1rem;
+        }
+        @media (prefers-color-scheme: light) {
+          .container { --text-color: #A9A9A9; }
+        }
+
         @keyframes hand-wave  {
             0% { transform: rotate(0.0deg); }
            10% { transform: rotate(14.0deg); }
@@ -12,20 +31,6 @@
            60% { transform: rotate(0.0deg); }
           100% { transform: rotate(0.0deg); }
         }
-        .container {
-          --text-color: #E1D9D1;
-          background-size: 400% 400%;
-          width: 100%;
-          height: 100px;
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          color: var(--text-color);
-          font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
-        }
-        @media (prefers-color-scheme: light) {
-          .container { --text-color: #A9A9A9; }
-        }
         .hand-wave {
           animation: hand-wave 2s linear -0.5s infinite;
           display: inline-block;
@@ -34,9 +39,14 @@
         @media (prefers-reduced-motion) {
           .hand-wave { animation: none; }
         }
+
+		.pad-around { padding: 0 0.5rem; }
       </style>
+
       <div class="container">
-        <h1>Hi there, my name is Roee <span class="hand-wave">👋</span></h1>
+		<span class="hand-wave">👋</span>
+        <h1 class="pad-around">Hi there, my name is Roee</h1>
+		<span class="hand-wave">👋</span>
       </div>
     </div>
   </foreignObject>
