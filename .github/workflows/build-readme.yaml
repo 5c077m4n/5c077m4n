@@ -1,6 +1,7 @@
 ---
 name: Build README
 
+# yamllint disable-line rule:truthy
 on:
   push:
   schedule:
