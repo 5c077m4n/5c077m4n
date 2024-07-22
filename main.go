@@ -2,6 +2,7 @@
 package main
 
 import (
+	"context"
 	"encoding/json"
 	"errors"
 	"fmt"
@@ -10,6 +11,7 @@ import (
 	"net/http"
 	"os"
 	"path"
+	"sync"
 	"text/template"
 	"time"
 
@@ -63,13 +65,21 @@ type (
 	}
 )
 
-func getPkgMetadata(name string) (*pkgMetadata, error) {
+func getPkgMetadata(
+	wg *sync.WaitGroup,
+	result chan<- pkgMetadata,
+	name string,
+) {
+	defer wg.Done()
+
 	resp, err := http.Get(npmsURL + name)
 	if err != nil {
-		return nil, errors.Join(
+		err = errors.Join(
 			fmt.Errorf("could not fetch `%s`'s package metadata", name),
 			err,
 		)
+		log.Println(err)
+		return
 	}
 	defer func() {
 		if errBody := resp.Body.Close(); errBody != nil {
@@ -79,21 +89,25 @@ func getPkgMetadata(name string) (*pkgMetadata, error) {
 
 	rawBody, err := io.ReadAll(resp.Body)
 	if err != nil {
-		return nil, errors.Join(
+		err = errors.Join(
 			fmt.Errorf("could not read `%s`'s package metadata", name),
 			err,
 		)
+		log.Println(err)
+		return
 	}
 
-	pkgMetaRaw := &pkgMetadataRaw{}
-	if err := json.Unmarshal(rawBody, pkgMetaRaw); err != nil {
-		return nil, errors.Join(
+	pkgMetaRaw := pkgMetadataRaw{}
+	if err := json.Unmarshal(rawBody, &pkgMetaRaw); err != nil {
+		err = errors.Join(
 			fmt.Errorf("could not parse `%s`'s package metadata", name),
 			err,
 		)
+		log.Println(err)
+		return
 	}
 
-	meta := &pkgMetadata{}
+	meta := pkgMetadata{}
 
 	if pkgMetaRaw.Collected != nil &&
 		pkgMetaRaw.Collected.Npm != nil &&
@@ -116,7 +130,7 @@ func getPkgMetadata(name string) (*pkgMetadata, error) {
 		meta.Coverage = *pkgMetaRaw.Collected.Source.Coverage
 	}
 
-	return meta, nil
+	result <- meta
 }
 
 func main() {
@@ -126,12 +140,27 @@ func main() {
 		log.Fatalln(err)
 	}
 
-	overallMetadata := &pkgMetadata{}
+	wg := &sync.WaitGroup{}
+	results := make(chan pkgMetadata)
 
 	for _, pkg := range packages {
-		if metadata, errMetadata := getPkgMetadata(pkg); errMetadata != nil {
-			log.Println(errMetadata)
-		} else {
+		wg.Add(1)
+		go getPkgMetadata(wg, results, pkg)
+	}
+	go func() {
+		wg.Wait()
+		close(results)
+	}()
+
+	ctx, cancel := context.WithTimeout(context.Background(), 20*time.Second)
+	defer cancel()
+
+	overallMetadata := pkgMetadata{}
+	for metadata := range results {
+		select {
+		case <-ctx.Done():
+			log.Fatalln(ctx.Err())
+		default:
 			overallMetadata.DownloadCount += metadata.DownloadCount
 			overallMetadata.Quality += metadata.Quality / float32(len(packages)) * 100
 			overallMetadata.Coverage += metadata.Coverage / float32(len(packages)) * 100
