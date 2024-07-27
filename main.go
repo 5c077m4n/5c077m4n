@@ -7,14 +7,13 @@ import (
 	"errors"
 	"fmt"
 	"io"
-	"log"
 	"net/http"
 	"os"
 	"path"
-	"sync"
 	"text/template"
 	"time"
 
+	"golang.org/x/sync/errgroup"
 	"golang.org/x/text/language"
 	"golang.org/x/text/message"
 )
@@ -22,6 +21,7 @@ import (
 const (
 	npmsURL        = "https://api.npms.io/v2/package/"
 	readmeTmplPath = "./assets/readme-template.md.tmpl"
+	fetchErrMsg    = "could not fetch `%s`'s package metadata"
 )
 
 var (
@@ -65,49 +65,28 @@ type (
 	}
 )
 
-func getPkgMetadata(
-	wg *sync.WaitGroup,
-	result chan<- pkgMetadata,
-	name string,
-) {
-	defer wg.Done()
-
+func getPkgMetadata(name string) (*pkgMetadata, error) {
 	resp, err := http.Get(npmsURL + name)
 	if err != nil {
-		err = errors.Join(
-			fmt.Errorf("could not fetch `%s`'s package metadata", name),
-			err,
-		)
-		log.Println(err)
-		return
+		return nil, errors.Join(fmt.Errorf(fetchErrMsg, name), err)
 	}
 	defer func() {
 		if errBody := resp.Body.Close(); errBody != nil {
-			log.Fatalln(errBody)
+			panic(errBody)
 		}
 	}()
 
 	rawBody, err := io.ReadAll(resp.Body)
 	if err != nil {
-		err = errors.Join(
-			fmt.Errorf("could not read `%s`'s package metadata", name),
-			err,
-		)
-		log.Println(err)
-		return
+		return nil, errors.Join(fmt.Errorf(fetchErrMsg, name), err)
 	}
 
 	pkgMetaRaw := pkgMetadataRaw{}
 	if err := json.Unmarshal(rawBody, &pkgMetaRaw); err != nil {
-		err = errors.Join(
-			fmt.Errorf("could not parse `%s`'s package metadata", name),
-			err,
-		)
-		log.Println(err)
-		return
+		return nil, errors.Join(fmt.Errorf(fetchErrMsg, name), err)
 	}
 
-	meta := pkgMetadata{}
+	meta := &pkgMetadata{DownloadCount: 0, Quality: 0, Coverage: 0}
 
 	if pkgMetaRaw.Collected != nil &&
 		pkgMetaRaw.Collected.Npm != nil &&
@@ -130,54 +109,61 @@ func getPkgMetadata(
 		meta.Coverage = *pkgMetaRaw.Collected.Source.Coverage
 	}
 
-	result <- meta
+	return meta, nil
 }
 
 func main() {
 	tmpl := template.New(path.Base(readmeTmplPath)).Funcs(tmplFuncMap)
 	tmpl, err := tmpl.ParseFiles(readmeTmplPath)
 	if err != nil {
-		log.Fatalln(err)
+		panic(err)
 	}
-
-	wg := &sync.WaitGroup{}
-	results := make(chan pkgMetadata)
-
-	for _, pkg := range packages {
-		wg.Add(1)
-		go getPkgMetadata(wg, results, pkg)
-	}
-	go func() {
-		wg.Wait()
-		close(results)
-	}()
 
 	ctx, cancel := context.WithTimeout(context.Background(), 20*time.Second)
 	defer cancel()
 
+	g, ctx := errgroup.WithContext(ctx)
+	results := make([]*pkgMetadata, len(packages))
+
+	for i, pkg := range packages {
+		g.Go(func() error {
+			metadata, errGetMetadata := getPkgMetadata(pkg)
+			if errGetMetadata != nil {
+				return errGetMetadata
+			}
+
+			select {
+			case <-ctx.Done():
+				return ctx.Err()
+			default:
+				results[i] = metadata
+			}
+
+			return nil
+		})
+	}
+	if errWait := g.Wait(); errWait != nil {
+		panic(errWait)
+	}
+
 	overallMetadata := pkgMetadata{}
-	for metadata := range results {
-		select {
-		case <-ctx.Done():
-			log.Fatalln(ctx.Err())
-		default:
-			overallMetadata.DownloadCount += metadata.DownloadCount
-			overallMetadata.Quality += metadata.Quality / float32(len(packages)) * 100
-			overallMetadata.Coverage += metadata.Coverage / float32(len(packages)) * 100
-		}
+	for _, metadata := range results {
+		overallMetadata.DownloadCount += metadata.DownloadCount
+		overallMetadata.Quality += metadata.Quality / float32(len(packages)) * 100
+		overallMetadata.Coverage += metadata.Coverage / float32(len(packages)) * 100
 	}
 
 	f, err := os.Create("README.md")
 	if err != nil {
-		log.Fatalln(err)
+		panic(err)
 	}
 	defer func() {
 		if errClose := f.Close(); errClose != nil {
-			log.Fatalln(errClose)
+			panic(errClose)
 		}
 	}()
 
 	if err := tmpl.Execute(f, overallMetadata); err != nil {
-		log.Fatalln(err)
+		panic(err)
 	}
 }
