@@ -25,11 +25,12 @@ const (
 )
 
 var (
-	packages    = []string{"http-responder", "pkgplay", "await-fn"}
+	packages = []string{"http-responder", "pkgplay", "await-fn"}
+
+	engPrinter  = message.NewPrinter(language.English)
 	tmplFuncMap = map[string]any{
 		"formatNumber": func(n uint) string {
-			return message.NewPrinter(language.English).
-				Sprintf("%d", n)
+			return engPrinter.Sprintf("%d", n)
 		},
 		"formatPercent": func(n float32) string {
 			return fmt.Sprintf("%.2f%%", n)
@@ -59,9 +60,9 @@ type (
 		} `json:"score"`
 	}
 	pkgMetadata struct {
-		DownloadCount uint    `json:"downloadCount"`
-		Quality       float32 `json:"quality"`
-		Coverage      float32 `json:"coverage"`
+		DownloadCount uint
+		Quality       float32
+		Coverage      float32
 	}
 )
 
