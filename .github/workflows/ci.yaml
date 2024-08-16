@@ -1,5 +1,5 @@
 ---
-name: Build README
+name: CI
 
 # yamllint disable-line rule:truthy
 on:
@@ -13,11 +13,25 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  golangci:
+    name: Lint
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: read
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with:
+          cache-dependency-path: "go.sum"
+          go-version-file: "go.mod"
+      - uses: golangci/golangci-lint-action@v6
+
   build:
+    name: Build `README.md`
     runs-on: ubuntu-latest
     permissions:
       contents: write
-
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-go@v5
