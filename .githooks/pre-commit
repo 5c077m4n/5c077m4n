@@ -1,0 +1,4 @@
+#!/usr/bin/env sh
+
+golangci-lint config verify
+golangci-lint run --new-from-rev HEAD
