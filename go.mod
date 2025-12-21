@@ -1,6 +1,6 @@
 module 5c077m4n
 
-go 1.23.1
+go 1.25.1
 
 require (
 	golang.org/x/sync v0.8.0
