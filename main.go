@@ -3,7 +3,6 @@ package main
 
 import (
 	"context"
-	"encoding/json"
 	"errors"
 	"fmt"
 	"io"
@@ -13,6 +12,7 @@ import (
 	"text/template"
 	"time"
 
+	"github.com/goccy/go-json"
 	"golang.org/x/sync/errgroup"
 	"golang.org/x/text/language"
 	"golang.org/x/text/message"
@@ -82,8 +82,11 @@ func getPkgMetadata(name string) (*pkgMetadata, error) {
 		return nil, errors.Join(fmt.Errorf(fetchErrMsg, name), err)
 	}
 
+	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
+	defer cancel()
+
 	pkgMetaRaw := pkgMetadataRaw{}
-	if err := json.Unmarshal(rawBody, &pkgMetaRaw); err != nil {
+	if err := json.UnmarshalContext(ctx, rawBody, &pkgMetaRaw); err != nil {
 		return nil, errors.Join(fmt.Errorf(fetchErrMsg, name), err)
 	}
 
