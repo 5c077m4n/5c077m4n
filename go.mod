@@ -1,6 +1,6 @@
 module 5c077m4n
 
-go 1.25.1
+go 1.26.3
 
 require (
 	github.com/goccy/go-json v0.10.6
