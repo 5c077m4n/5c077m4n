@@ -3,9 +3,9 @@
 - 🤓 Cool geek!
 - 🖥️ Coding is my passion
 - 👶 New(ish) father
-- 🧮 19,243 total downloads on NPM<sup>1</sup>
-- 👼 87.98% average NPM package quality<sup>1</sup>
-- 🧐 60.67% average code coverage<sup>1</sup>
+- 🧮 0 total downloads on NPM<sup>1</sup>
+- 👼 0.00% average NPM package quality<sup>1</sup>
+- 🧐 0.00% average code coverage<sup>1</sup>
 
 ### Connect with me:
 
@@ -14,7 +14,7 @@
 
 ---
 
-<sup>1</sup> Auto-updated on September 5, 2026
+<sup>1</sup> Auto-updated on September 6, 2026
 
 [linkedin]: https://www.linkedin.com/in/ro13-s/
 [github]: https://github.com/5c077m4n
